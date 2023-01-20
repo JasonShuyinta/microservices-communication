@@ -1,0 +1,7 @@
+com\dotjson\customer\CustomerController.class
+com\dotjson\customer\CustomerService.class
+com\dotjson\customer\CustomerApplication.class
+com\dotjson\customer\CustomerRepository.class
+com\dotjson\customer\CustomerRegistrationRequest.class
+com\dotjson\customer\Customer$CustomerBuilder.class
+com\dotjson\customer\Customer.class
