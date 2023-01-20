@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="eureka-server" />
         <module name="fraud" />
         <module name="customer" />
       </profile>
@@ -14,6 +15,7 @@
     <bytecodeTargetLevel>
       <module name="common-dtos" target="17" />
       <module name="customer" target="17" />
+      <module name="eureka-server" target="17" />
       <module name="fraud" target="17" />
       <module name="microservice-communication" target="17" />
       <module name="order-service" target="17" />
