@@ -22,7 +22,7 @@ public class CustomerService {
                 .email(request.email())
                 .build();
         customerRepository.saveAndFlush(customer);
-        rabbitTemplate.convertAndSend(RabbitMQConfig.MESSAGE_EXCHANGE, RabbitMQConfig.ROUTING_KEY, customer.getId());
+        rabbitTemplate.convertAndSend(RabbitMQConfig.MESSAGE_EXCHANGE, RabbitMQConfig.ROUTING_KEY, customer);
         log.info("Message published");
 
         //         FraudCheckResponse response = restTemplate.getForObject(
