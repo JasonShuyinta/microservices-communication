@@ -13,3 +13,17 @@ j
 :fraud/src/main/java/com/dotjson/fraud/FraudController.java,0\3\033a6bb0b36b1980edf6891023710ae80e12ed74
 E
 eureka-server/pom.xml,b\3\b39ae52d769ea03b699b5602439afd875433c8a7
+7
+pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
+s
+Ccustomer/src/main/java/com/dotjson/customer/FraudCheckResponse.java,b\d\bdba281ab4d10523673e7c3474cc8ff70a29f2ff
+i
+9fraud/src/main/java/com/dotjson/fraud/RabbitMQConfig.java,3\9\396f3721e744a741fcdc1970c05078c9b3a145df
+|
+Lcustomer/src/main/java/com/dotjson/customer/CustomerRegistrationRequest.java,8\5\8516659553025c50ac9cf78762d0de582a97ad52
+c
+3fraud/src/main/java/com/dotjson/fraud/Customer.java,2\8\28535461702542dd5a79669a01417fc1a2342b9c
+o
+?customer/src/main/java/com/dotjson/customer/RabbitMQConfig.java,5\5\55b94590b7bd34f261182459fea3c7a89fbf855e
+9
+	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d

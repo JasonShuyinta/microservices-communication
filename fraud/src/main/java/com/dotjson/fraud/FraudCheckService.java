@@ -3,6 +3,7 @@ package com.dotjson.fraud;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,6 +23,18 @@ public class FraudCheckService {
         fraudCheckHistoryRepository.save(
                 FraudCheckHistory.builder()
                         .customerId(customer.getId())
+                        .isFraudster(true)
+                        .createdAt(LocalDateTime.now())
+                        .build()
+        );
+    }
+
+    @KafkaListener(topics = "dotjson", groupId = "groupId")
+    public void getCustomerFromKafka(String customerEmail) {
+        log.info("Received {}", customerEmail);
+        fraudCheckHistoryRepository.save(
+                FraudCheckHistory.builder()
+                        .customerId(0)
                         .isFraudster(true)
                         .createdAt(LocalDateTime.now())
                         .build()

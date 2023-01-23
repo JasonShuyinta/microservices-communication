@@ -15,6 +15,11 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: true
+  kafka:
+    consumer:
+      bootstrap-servers:
+        - localhost:9092
+
 eureka:
   client:
     service-url:

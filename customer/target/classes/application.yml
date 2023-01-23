@@ -15,6 +15,10 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: true
+  kafka:
+    producer:
+      bootstrap-servers:
+        - localhost:9092
 #    host: localhost
 #    password: guest
 #    port: 5672
