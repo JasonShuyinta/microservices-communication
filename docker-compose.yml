@@ -34,19 +34,26 @@ services:
       - "5672:5672"
       - "15672:15672"
   zookeeper:
+    image: 'bitnami/zookeeper:latest'
     container_name: zookeeper
-    image: wurstmeister/zookeeper
     ports:
-      - "2181:2181"
-  kafka:
-    container_name: kafka
-    image: wurstmeister/kafka
-    ports:
-      - "9092:9092"
+      - '2181:2181'
     environment:
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'false'
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - postgres
+  kafka:
+    image: 'bitnami/kafka:latest'
+    container_name: kafka
+    ports:
+      - '9092:9092'
+    environment:
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    networks:
+      - postgres
 networks:
   postgres:
     driver: bridge

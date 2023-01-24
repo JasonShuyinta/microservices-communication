@@ -27,3 +27,11 @@ o
 ?customer/src/main/java/com/dotjson/customer/RabbitMQConfig.java,5\5\55b94590b7bd34f261182459fea3c7a89fbf855e
 9
 	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+@
+customer/pom.xml,f\0\f04db7a99ce1257e856612bd563cd946a39fac96
+=
+fraud/pom.xml,d\0\d024669e89b7b66ac8ba07340a73edc6aa228259
+s
+Ccustomer/src/main/java/com/dotjson/customer/RestTemplateConfig.java,1\6\16fd8510ba80b66644a0a9b760731960b6f98cc5
+s
+Ccustomer/src/main/java/com/dotjson/customer/CustomerController.java,b\0\b0d005a0e303cce58cac131b9c77faffd11dd624
