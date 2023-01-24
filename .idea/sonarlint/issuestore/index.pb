@@ -25,8 +25,6 @@ c
 3fraud/src/main/java/com/dotjson/fraud/Customer.java,2\8\28535461702542dd5a79669a01417fc1a2342b9c
 o
 ?customer/src/main/java/com/dotjson/customer/RabbitMQConfig.java,5\5\55b94590b7bd34f261182459fea3c7a89fbf855e
-9
-	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
 @
 customer/pom.xml,f\0\f04db7a99ce1257e856612bd563cd946a39fac96
 =

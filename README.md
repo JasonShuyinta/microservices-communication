@@ -238,8 +238,166 @@ At this point this method will receive the Customer object that was sent from th
 #### IMPORTANT: 
 The RabbitListener must be a void method, unless you want the Consumer to reply to the Producer. 
 
+## Apache Kafka
+To use Apache Kafka as the message broker, the bitname image was used, as it is the best maintained and
+the best documented. 
+To create the Kafka server you need to get the Zookeeper and Kafka broker images as follows:
+```yaml
+services:
+  zookeeper:
+    image: 'bitnami/zookeeper:latest'
+    container_name: zookeeper
+    ports:
+      - '2181:2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - postgres
+  kafka:
+    image: 'bitnami/kafka:latest'
+    container_name: kafka
+    ports:
+      - '9092:9092'
+    environment:
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    networks:
+      - postgres
+```
+It is important to have the same networks on which your microservices are running on. In our
+case the network name is *postgres*.
+
+#### Producer Configuration
+The producer is the microservice that sends the message to the broker, so in our case
+it is the Customer microservice.
+There is some configuration needed to be done to use Kafka, like giving it the bootstrap servers as well as the
+topic on which the Producer should write to:
+```java
+@Configuration
+@RequiredArgsConstructor
+public class KafkaProducerConfig {
+
+    @Bean
+    public Map<String, Object> producerConfig() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        return props;
+    }
+
+    @Bean
+    public ProducerFactory<String, String> producerFactory() {
+        return new DefaultKafkaProducerFactory<>(producerConfig());
+    }
+
+    @Bean
+    public KafkaTemplate<String, String> kafkaTemplate(ProducerFactory<String, String> producerFactory) {
+        return new KafkaTemplate<>(producerFactory);
+    }
+
+    @Bean
+    public NewTopic dotjsonTopic() {
+        return TopicBuilder.name("dotjson").build();
+    }
+}
+```
+
+Next, in the service layer, or wherever you want to be able to send the message to the queue, you implement the
+KafkaTemplate and use the *send* method, giving in the topic and the payload.
+```java
+@Service
+@AllArgsConstructor
+@Slf4j
+public class CustomerService {
+
+    private final CustomerRepository customerRepository;
+    private final KafkaTemplate<String, String> kafkaTemplate;
+
+    public void registerCustomerKafka(CustomerRegistrationRequest request) {
+        Customer customer = Customer.builder()
+                .firstName(request.firstName())
+                .lastName(request.lastName())
+                .email(request.email())
+                .build();
+        customerRepository.saveAndFlush(customer);
+        kafkaTemplate.send("dotjson", customer.getEmail());
+        log.info("Published to Kafka");
+    }
+}
+```
+
+If you want to be able to receive the messages from Kafka you need to setup some
+configuration on the Consumer as well. 
 
 
+Basically implement the following configuration in the Fraud microservice, where as before
+we give to Kafka the bootstrap server and the topic -> *dotjson*.
+```java
+@Configuration
+@RequiredArgsConstructor
+public class KafkaConsumerConfig {
 
+    @Bean
+    public Map<String, Object> consumerConfig() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        return props;
+    }
 
+    @Bean
+    public ConsumerFactory<String, String> consumerFactory() {
+        return new DefaultKafkaConsumerFactory<>(consumerConfig());
+    }
 
+    @Bean
+    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> factory(ConsumerFactory<String, String> consumerFactory) {
+        ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory);
+        return factory;
+    }
+
+    @Bean
+    public NewTopic dotjsonTopic() {
+        return TopicBuilder.name("dotjson").build();
+    }
+}
+```
+
+Next, in the Consumer we annotate the method with @KafkaListener, give the topic and 
+the groupId and as a parameter we pass the payload we want to receive from the Kafka queue.
+
+```java
+@Slf4j
+@Service
+@AllArgsConstructor
+public class FraudCheckService {
+
+    private final FraudCheckHistoryRepository fraudCheckHistoryRepository;
+
+    @KafkaListener(topics = "dotjson", groupId = "groupId")
+    public void getCustomerFromKafka(String customerEmail) {
+        log.info("Received {}", customerEmail);
+        fraudCheckHistoryRepository.save(
+                FraudCheckHistory.builder()
+                        .customerId(0)
+                        .isFraudster(true)
+                        .createdAt(LocalDateTime.now())
+                        .build()
+        );
+    }
+}
+```
+
+## Conclusion
+We have here seen how to implement 3 types of microservice communication:
+1. ***REST Template***: it uses HTTP protocol, so it is a synchronous way of communicating. Might be good for small applications, but it blocks your entire architecture if the microservice cannot receive the payload.
+2. ***RabbitMQ***: It is super-easy to configure and implement and also easy to use. It uses the Message Queue Protocol so it is asynchronous, giving it a big advantage on the REST Template. 
+3. ***Apache Kafka***: a bit difficult to implement and configure, it is asynchronous as well but it is able to persist the messagges in the queue forever, so it is a big advantage. Industry-standard so it might be useful to learn.
+
+#### Author
+Jason Shuyinta
