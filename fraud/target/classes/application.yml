@@ -19,7 +19,6 @@ spring:
     consumer:
       bootstrap-servers:
         - localhost:9092
-
 eureka:
   client:
     service-url:

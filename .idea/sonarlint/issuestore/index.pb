@@ -1,6 +1,4 @@
 
-i
-9customer/src/main/java/com/dotjson/customer/Customer.java,a\8\a8ceb53c4d040cc3ee5ca6ff4e92a99db6fbcd00
 s
 Ccustomer/src/main/java/com/dotjson/customer/CustomerRepository.java,f\a\fa17c726a750fe7c91775b1c9e9593dfb6ce1554
 l
@@ -21,8 +19,6 @@ i
 9fraud/src/main/java/com/dotjson/fraud/RabbitMQConfig.java,3\9\396f3721e744a741fcdc1970c05078c9b3a145df
 |
 Lcustomer/src/main/java/com/dotjson/customer/CustomerRegistrationRequest.java,8\5\8516659553025c50ac9cf78762d0de582a97ad52
-c
-3fraud/src/main/java/com/dotjson/fraud/Customer.java,2\8\28535461702542dd5a79669a01417fc1a2342b9c
 o
 ?customer/src/main/java/com/dotjson/customer/RabbitMQConfig.java,5\5\55b94590b7bd34f261182459fea3c7a89fbf855e
 @
@@ -33,3 +29,5 @@ s
 Ccustomer/src/main/java/com/dotjson/customer/RestTemplateConfig.java,1\6\16fd8510ba80b66644a0a9b760731960b6f98cc5
 s
 Ccustomer/src/main/java/com/dotjson/customer/CustomerController.java,b\0\b0d005a0e303cce58cac131b9c77faffd11dd624
+9
+	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d

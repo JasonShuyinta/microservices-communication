@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -29,12 +30,12 @@ public class FraudCheckService {
         );
     }
 
-    @KafkaListener(topics = "dotjson", groupId = "groupId")
-    public void getCustomerFromKafka(String customerEmail) {
-        log.info("Received {}", customerEmail);
+    @KafkaListener(topics = "dotjson", groupId = "groupId", containerFactory = "customerListener")
+    public void getCustomerFromKafka(Customer customer) {
+        log.info("Received {}", customer.toString());
         fraudCheckHistoryRepository.save(
                 FraudCheckHistory.builder()
-                        .customerId(0)
+                        .customerId(customer.getId())
                         .isFraudster(true)
                         .createdAt(LocalDateTime.now())
                         .build()

@@ -16,7 +16,7 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
     private final RestTemplate restTemplate;
     private final RabbitTemplate rabbitTemplate;
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, Customer> kafkaTemplate;
 
 
     public void registerCustomerRestTemplate(CustomerRegistrationRequest request) {
@@ -55,7 +55,7 @@ public class CustomerService {
                 .email(request.email())
                 .build();
         customerRepository.saveAndFlush(customer);
-        kafkaTemplate.send("dotjson", customer.getEmail());
+        kafkaTemplate.send("dotjson", customer);
         log.info("Published to Kafka");
     }
 
