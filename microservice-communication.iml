@@ -5,6 +5,17 @@
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/target" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/3/5" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/4/8" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/4/a" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/8/0" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/8/e" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/a/0" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/a/8" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/d/a" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/2" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/2/2" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/c" />
     </content>
     <orderEntry type="jdk" jdkName="17" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
